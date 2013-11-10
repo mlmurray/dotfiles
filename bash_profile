@@ -1,9 +1,20 @@
-alias local="bundle install && rake db:migrate && rake db:test:clone && rake && foreman start"
+
+
+export FITOOPDIR="~/Documents/Tools/fitoop"
+alias runtest="cd ${FITOOPDIR} && bundle install && rake db:migrate && rake db:test:clone && rake"
+alias local="runtest && foreman start"
+alias git-commit-current="git add . && git commit && git push"
 
 alias newrelicdeploy="curl -H \"x-api-key:c0163479b34e539cc87a2b505e683399e2a2b56cc404633\" -d \"deployment[application_id]=2291233\" -d \"deployment[description]=Deployment from `hostname` \" -d \"deployment[revision]=`git log -n 1 | grep commit | cut -f2 -d' '`\" -d \"deployment[changelog]=`git log -n 1 | tail +5`\" -d \"deployment[user]=mlmurray\"  https://rpm.newrelic.com/deployments.xml"
 
-alias deploy="bundle install && rake db:test:clone && rake db:migrate && rake && git add . && git commit; git push; git push heroku master && heroku run rake db:migrate && newrelicdeploy"
+alias deploy="runtest && git-commit-current; git push heroku master && rake figaro:heroku && heroku run rake db:migrate && newrelicdeploy"
+alias dbreset="rake db:pgbackup db:reset db:pgrestore db:migrate && runtest"
+alias dbhardreset="rake db:pgbackup db:drop db:create db:pgrestore db:migrate && runtest"
 
+alias s3mad='s3cmd -c ~/.s3cfg-mad'
+
+
+### Traditional stuff
 PORT=3000
 PATH=/Applications/Postgres.app/Contents/MacOS/bin:${PATH}:/opt/local/bin
 QUEUE='*'
