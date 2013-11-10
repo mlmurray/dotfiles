@@ -1,5 +1,5 @@
 
-# Fitoop Directory
+# Fitoop Directory Definition
 export FITOOPDIR="/Users/mmurray/Documents/Tools/fitoop"
 
 alias fit-git="git --git-dir="${FITOOPDIR}/.git" --work-tree='/fitoop'"
