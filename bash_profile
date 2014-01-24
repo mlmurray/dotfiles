@@ -10,13 +10,11 @@ alias runtest="cd ${FITOOPDIR} && bundle install && rake db:migrate && rake db:t
 alias local="runtest && foreman start"
 alias git-commit-current="cd ${FITOOPDIR} && git add . && git commit && git push"
 
-alias newrelicdeploy="cd ${FITOOPDIR}; curl -H \"x-api-key:c0163479b34e539cc87a2b505e683399e2a2b56cc404633\" -d \"deployment[application_id]=2291233\" -d \"deployment[description]=Deployment from `hostname` \" -d \"deployment[revision]=`git-log | grep commit | cut -f2 -d' '`\" -d \"deployment[changelog]=`git-log | tail +5`\" -d \"deployment[user]=mlmurray\"  https://rpm.newrelic.com/deployments.xml"
-
-alias deploy="runtest && git-commit-current; git push heroku master && rake figaro:heroku && heroku run rake db:migrate && newrelicdeploy"
+alias deploy="runtest && ( git-commit-current; git push heroku master && rake figaro:heroku && heroku run rake db:migrate && source ~/.bash_profile)"
 alias dbreset="rake db:pgbackup db:reset db:pgrestore db:migrate && runtest"
 alias dbhardreset="rake db:pgbackup db:drop db:create db:pgrestore db:migrate && runtest"
 
-alias s3mad='s3cmd -c ~/.s3cfg-mad'
+#alias s3mad='s3cmd -c ~/.s3cfg-mad'
 
 
 ### Traditional stuff
